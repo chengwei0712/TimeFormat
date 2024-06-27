@@ -1,0 +1,1 @@
+时间解析工具，支持"yyyy-M-dd HH:mm", "yyyy-M-dd H:mm", "yyyy-M-d HH:mm", "yyyy-M-d H:mm",	"yyyy-MM-dd HH:mm",	"yyyy/MM/dd HH:mm:ss",	"yyyy-MM-dd HH:mm:ss",	"yyyy/M/d HH:mm:ss", "yyyy/MM/dd",	"yyyy-MM-dd",	"yyyy/MM/dd hh:mm:ssa",	"yyyy-MM-dd hh:mm:ssa",	"yyyy/M/d hh:mm:ssa",	"yyyy/MM/dd HH-mm-ss sss",	"yyyy-MM-dd HH-mm-ss sss"等时间格式字符串转换成标准时间格式
