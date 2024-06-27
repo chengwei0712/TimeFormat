@@ -1,0 +1,63 @@
+public static String convertToStandardFormat(String dateString) {
+		if (Func.isEmpty(dateString)) {
+			return StringUtils.EMPTY;
+		}
+
+		String[] possibleFormats = {
+			"yyyy-M-dd HH:mm",
+			"yyyy-M-dd H:mm",
+			"yyyy-M-d HH:mm",
+			"yyyy-M-d H:mm",
+			"yyyy-MM-dd HH:mm",
+			"yyyy/MM/dd HH:mm:ss",
+			"yyyy-MM-dd HH:mm:ss",
+			"yyyy/M/d HH:mm:ss",
+			"yyyy/MM/dd",
+			"yyyy-MM-dd",
+			"yyyy/MM/dd hh:mm:ssa",
+			"yyyy-MM-dd hh:mm:ssa",
+			"yyyy/M/d hh:mm:ssa",
+			"yyyy/MM/dd HH-mm-ss sss",
+			"yyyy-MM-dd HH-mm-ss sss"
+		};
+
+		// 如果日期格式中包含AM，需要将AM去掉，如果日期含有PM，需要将小时数增加12小时
+		if (dateString.contains("AM") || dateString.contains("PM") || dateString.contains("am") || dateString.contains("pm") || dateString.contains("上午") || dateString.contains("下午")) {
+			String nyr = dateString.split(" ")[0];
+			String xfm = transformationHMS(dateString.split(" ")[1]);
+			dateString = nyr + " " + xfm;
+		}
+
+		for (String format : possibleFormats) {
+			try {
+				SimpleDateFormat sdf = new SimpleDateFormat(format);
+				sdf.setLenient(false);
+				Date date = sdf.parse(dateString);
+				SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				return outputFormat.format(date);
+			} catch (ParseException e) {
+			}
+		}
+		return StringUtils.EMPTY;
+	}
+
+	private static String transformationHMS(String hms) {
+		String[] split = hms.split(":");
+		String s;
+		String replace;
+		if (split[2].contains("上午") || split[2].contains("am") || split[2].contains("AM")) {
+			if ((split[0].length() == 1)) {
+				s = "0" + split[0] + ":" + split[1] + ":" + split[2];
+			} else {
+				s = split[0] + ":" + split[1] + ":" + split[2];
+			}
+			replace = s.substring(0, 8);
+		} else if (split[2].contains("下午") || split[2].contains("pm") || split[2].contains("PM")) {
+			int a = Integer.parseInt(split[0]) + 12;
+			s = a + ":" + split[1] + ":" + split[2];
+			replace = s.substring(0, 8);
+		} else {
+			return hms;
+		}
+		return replace;
+	}
